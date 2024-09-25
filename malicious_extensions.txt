@@ -1,0 +1,10 @@
+exe
+bat
+cmd
+scr
+js
+vbs
+com
+msi
+dll
+pif
