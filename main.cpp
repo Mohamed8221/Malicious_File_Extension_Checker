@@ -1,6 +1,7 @@
 #include <iostream>
 #include <unordered_set>
 #include <string>
+#include <vector>
 #include <fstream>
 #include <algorithm>
 
@@ -51,17 +52,23 @@ bool loadMaliciousExtensions(const std::string& filepath, std::unordered_set<std
     return true;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
     std::unordered_set<std::string> maliciousExtensions;
 
-    // Load malicious extensions from a file
-    std::string extensionsFile = "D:\\offcrest\\pr\\malicious_extensions.txt";
+    // Extensions list: first argument, or malicious_extensions.txt in the current directory
+    std::string extensionsFile = (argc > 1) ? argv[1] : "malicious_extensions.txt";
     if (!loadMaliciousExtensions(extensionsFile, maliciousExtensions)) {
         return 1; // Exit if the file could not be opened
     }
 
-    // Example file names to check
-    std::string files[] = {"file1.exe", "document.txt", "script.js", "image.jpeg", "archive.rar", "virus.scr"};
+    // Files to check: remaining arguments, or a built-in set of examples
+    std::vector<std::string> files;
+    for (int i = 2; i < argc; ++i) {
+        files.push_back(argv[i]);
+    }
+    if (files.empty()) {
+        files = {"file1.exe", "document.txt", "script.js", "image.jpeg", "archive.rar", "virus.scr"};
+    }
 
     for (const auto& file : files) {
         if (isMaliciousExtension(file, maliciousExtensions)) {
