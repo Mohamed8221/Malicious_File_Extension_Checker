@@ -1,0 +1,5 @@
+build/
+cmake-build-*/
+*.o
+*.exe.stackdump
+extension_checker
